@@ -51,5 +51,4 @@ services:
           memory: 256M
 
 volumes:
-  stalwart_data:
-    driver: local
+  stalwart_data:/opt/stalwart-mail
