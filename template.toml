@@ -1,8 +1,9 @@
-[variables]
-main_domain = "${domain}"
+[server]
+hostname = "mail.techvision.edu.et"
 
-[config]
-[[config.domains]]
-serviceName = "stalwart-mail"
-port = 8081
-host = "${main_domain}"
+[admin]
+user = "admin@techvision.edu.et"
+password = "StrongPass123!"
+
+[storage]
+data = "/data"
