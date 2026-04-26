@@ -17,6 +17,6 @@ services:
 
     volumes:
       - ./stalwart-data:/data
-      - ./template.toml:/etc/stalwart/config.toml
+      - ./config.toml:/etc/stalwart/config.toml
 
     command: ["-c", "/etc/stalwart/config.toml"]
