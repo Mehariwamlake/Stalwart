@@ -1,0 +1,9 @@
+[server]
+hostname = "mail.techvision.edu.et"
+
+[admin]
+user = "admin@techvision.edu.et"
+password = "StrongPass123!"
+
+[storage]
+data = "/data"
