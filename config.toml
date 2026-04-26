@@ -1,9 +1,60 @@
+# =========================
+# STALWART MAIL SERVER
+# Production Config
+# =========================
+
 [server]
 hostname = "mail.techvision.edu.et"
 
-[admin]
-user = "admin@techvision.edu.et"
+# Web admin/API
+bind = ["0.0.0.0:8080"]
+
+# SMTP
+smtp.bind = ["0.0.0.0:25", "0.0.0.0:587", "0.0.0.0:465"]
+
+# IMAP
+imap.bind = ["0.0.0.0:143", "0.0.0.0:993"]
+
+# POP3 (optional)
+pop3.bind = ["0.0.0.0:110", "0.0.0.0:995"]
+
+# ManageSieve
+sieve.bind = ["0.0.0.0:4190"]
+
+
+# =========================
+# STORAGE (VERY IMPORTANT)
+# =========================
+[storage]
+type = "filesystem"
+path = "/data"
+
+
+# =========================
+# AUTHENTICATION
+# =========================
+[authentication]
+# First admin account (change password immediately after login)
+admin = "admin@techvision.edu.et"
 password = "StrongPass123!"
 
-[storage]
-data = "/data"
+
+# =========================
+# DOMAIN SETUP
+# =========================
+[mail]
+default_domain = "techvision.edu.et"
+
+
+# =========================
+# TLS (for production later with Nginx/Certbot)
+# =========================
+[tls]
+enabled = false
+
+
+# =========================
+# LOGGING
+# =========================
+[logging]
+level = "info"
