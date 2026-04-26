@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   stalwart-mail:
-    image: stalwartlabs/stalwart:v0.8.0-alpine   # ✅ pin version (avoid latest in prod)
+    image: stalwartlabs/stalwart:latest # ✅ pin version (avoid latest in prod)
     container_name: stalwart-mail
 
     hostname: mail.techvision.edu.et  # ✅ set your mail domain
