@@ -1,21 +1,31 @@
 
 services:
   stalwart-mail:
-    image: stalwartlabs/stalwart:latest
+    image: stalwartlabs/stalwart:latest-alpine
     container_name: stalwart-mail
     restart: unless-stopped
+
     ports:
-      - "25:25"      # SMTP
-      - "465:465"    # SMTPS
-      - "587:587"    # Submission
-      - "143:143"    # IMAP
-      - "993:993"    # IMAPS
-      - "110:110"    # POP3
-      - "995:995"    # POP3S
-      - "4190:4190"  # ManageSieve
-      - "8083:8080"  # Management Interface
+      - "25:25"
+      - "465:465"
+      - "587:587"
+      - "143:143"
+      - "993:993"
+      - "110:110"
+      - "995:995"
+      - "4190:4190"
+      - "8083:8080"   # admin/API
+
     environment:
-      # Optional: Set a fixed admin password (default is generated in logs)
-      - STALWART_RECOVERY_ADMIN=admin:yourSecretPass
+      - STALWART_RECOVERY_ADMIN=admin@techvision.edu.et:StrongPass123!
+
     volumes:
       - ./stalwart-data:/opt/stalwart-mail
+
+    command: >
+      /bin/sh -c "
+      if [ ! -f /opt/stalwart-mail/etc/config.toml ]; then
+        stalwart init;
+      fi;
+      stalwart run;
+      "
