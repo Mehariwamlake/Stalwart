@@ -1,7 +1,6 @@
-
 services:
   stalwart-mail:
-    image: stalwartlabs/stalwart:latest-alpine
+    image: stalwartlabs/stalwart:v0.16.1
     container_name: stalwart-mail
     restart: unless-stopped
 
@@ -14,18 +13,10 @@ services:
       - "110:110"
       - "995:995"
       - "4190:4190"
-      - "8083:8080"   # admin/API
-
-    environment:
-      - STALWART_RECOVERY_ADMIN=admin@techvision.edu.et:StrongPass123!
+      - "8083:8080"
 
     volumes:
-      - ./stalwart-data:/opt/stalwart-mail
+      - ./stalwart-data:/data
+      - ./template.toml:/etc/stalwart/config.toml
 
-    command: >
-      /bin/sh -c "
-      if [ ! -f /opt/stalwart-mail/etc/config.toml ]; then
-        stalwart init;
-      fi;
-      stalwart run;
-      "
+    command: ["-c", "/etc/stalwart/config.toml"]
