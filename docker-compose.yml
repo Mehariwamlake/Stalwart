@@ -18,4 +18,4 @@ services:
     volumes:
       - ./stalwart-data:/data
 
-    command: ["-c", "/data"]
+    command: ["-c", "/data/config.toml
