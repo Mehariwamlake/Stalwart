@@ -1,19 +1,55 @@
+version: "3.9"
+
 services:
   stalwart-mail:
-    image: stalwartlabs/stalwart:v0.16.1
+    image: stalwartlabs/stalwart:v0.8.0-alpine   # ✅ pin version (avoid latest in prod)
     container_name: stalwart-mail
-    restart: unless-stopped
+
+    hostname: mail.techvision.edu.et  # ✅ set your mail domain
 
     ports:
-      - "25:25"
-      - "465:465"
-      - "587:587"
-      - "143:143"
-      - "993:993"
+      - "25:25"       # SMTP
+      - "587:587"     # Submission (STARTTLS)
+      - "465:465"     # SMTPS
+      - "143:143"     # IMAP
+      - "993:993"     # IMAPS
+      - "4190:4190"   # ManageSieve
+
+      # Optional (only if you really need them)
+      - "110:110"     # POP3
+      - "995:995"     # POP3S
+
+      # Admin / API (restrict later with reverse proxy)
       - "8083:8080"
 
     volumes:
-      - ./stalwart-data:/data
-      - ./config.toml:/etc/stalwart/config.toml
+      - stalwart_data:/opt/stalwart-mail
+      - ./config:/etc/stalwart   # ✅ external config (important)
 
-    command: ["-c", "/etc/stalwart/config.toml"]
+    environment:
+      - TZ=Africa/Addis_Ababa
+
+    restart: unless-stopped
+
+    # ✅ health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+    # ✅ basic security
+    security_opt:
+      - no-new-privileges:true
+
+    # ✅ limit resources (optional but good)
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+
+volumes:
+  stalwart_data:
+    driver: local
