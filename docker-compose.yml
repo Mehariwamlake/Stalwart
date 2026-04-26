@@ -1,12 +1,4 @@
-stalwart docker compose yml
 
-
-
-+6
-To deploy Stalwart Mail Server using Docker Compose, you can use the following configuration based on the official Stalwart Labs installation guide. 
-Standard Docker Compose File 
-Create a file named docker-compose.yml with the following content: 
-yaml
 services:
   stalwart-mail:
     image: stalwartlabs/mail-server:latest
