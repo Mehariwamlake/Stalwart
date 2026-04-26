@@ -51,4 +51,4 @@ services:
           memory: 256M
 
 volumes:
-  stalwart_data:/opt/stalwart-mail
+  stalwart_data
