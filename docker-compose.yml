@@ -6,7 +6,7 @@ services:
     container_name: stalwart-mail
 
     hostname: mail.techvision.edu.et  # ✅ set your mail domain
-
+    entrypoint: ["/bin/sh", "-c", "chown -R 1000:1000 /opt/stalwart-mail && /usr/local/bin/stalwart"]
     ports:
       - "25:25"       # SMTP
       - "587:587"     # Submission (STARTTLS)
