@@ -3,41 +3,26 @@ services:
     image: stalwartlabs/stalwart:latest-alpine
     container_name: stalwart-mail
 
-    hostname: mail.techvision.edu.et
+    hostname: ${MAIL_DOMAIN}
 
     ports:
-      - "25:25"      # SMTP
-      - "587:587"    # Submission (STARTTLS)
-      - "465:465"    # SMTPS
-      - "143:143"    # IMAP
-      - "993:993"    # IMAPS
-      - "4190:4190"  # ManageSieve
-      - "8083:8080"  # Web UI / Admin
+      - "25:25"
+      - "587:587"
+      - "465:465"
+      - "143:143"
+      - "993:993"
+      - "4190:4190"
+      - "8083:8080"
 
     volumes:
-      # ✅ MAIN DATA (RocksDB, mailboxes, metadata)
       - stalwart_data:/opt/stalwart-mail/data
-
-      # ✅ CONFIG (from GitHub repo via Dokploy)
       - ./config:/etc/stalwart:rw
 
     environment:
-      - TZ=Africa/Addis_Ababa
+      - TZ=${TZ}
+      - STALWART_RECOVERY_ADMIN=${STALWART_RECOVERY_ADMIN}
 
     restart: unless-stopped
-
-    # IMPORTANT: DO NOT use custom entrypoint or chown hacks
-    # Stalwart handles permissions internally when volume is clean
-
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8083/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 40s
-
-    security_opt:
-      - no-new-privileges:true
 
     ulimits:
       nofile:

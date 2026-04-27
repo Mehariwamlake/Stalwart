@@ -1,0 +1,25 @@
+[server]
+hostname = "mail.techvision.edu.et"
+
+[storage]
+data = "/opt/stalwart-mail/data"
+
+[storage.blob]
+path = "/opt/stalwart-mail/data"
+
+[storage.fts]
+path = "/opt/stalwart-mail/data"
+
+[store]
+type = "rocksdb"
+path = "/opt/stalwart-mail/data"
+
+[jmap]
+directory = "internal"
+
+[auth]
+directory = "internal"
+
+[log]
+level = "info"
+path = "/opt/stalwart-mail/logs"
