@@ -1,54 +1,48 @@
-version: "3.9"
-
 services:
   stalwart-mail:
-    image: stalwartlabs/stalwart:latest # ✅ pin version (avoid latest in prod)
+    image: stalwartlabs/stalwart:latest-alpine
     container_name: stalwart-mail
 
-    hostname: mail.techvision.edu.et  # ✅ set your mail domain
-    entrypoint: ["/bin/sh", "-c", "chown -R 1000:1000 /opt/stalwart-mail && /usr/local/bin/stalwart"]
+    hostname: mail.techvision.edu.et
+
     ports:
-      - "25:25"       # SMTP
-      - "587:587"     # Submission (STARTTLS)
-      - "465:465"     # SMTPS
-      - "143:143"     # IMAP
-      - "993:993"     # IMAPS
-      - "4190:4190"   # ManageSieve
-
-      # Optional (only if you really need them)
-      - "110:110"     # POP3
-      - "995:995"     # POP3S
-
-      # Admin / API (restrict later with reverse proxy)
-      - "8083:8080"
+      - "25:25"      # SMTP
+      - "587:587"    # Submission (STARTTLS)
+      - "465:465"    # SMTPS
+      - "143:143"    # IMAP
+      - "993:993"    # IMAPS
+      - "4190:4190"  # ManageSieve
+      - "8083:8080"  # Web UI / Admin
 
     volumes:
-      - stalwart_data:/opt/stalwart-mail
-      - ./config:/etc/stalwart   # ✅ external config (important)
+      # ✅ MAIN DATA (RocksDB, mailboxes, metadata)
+      - stalwart_data:/opt/stalwart-mail/data
+
+      # ✅ CONFIG (from GitHub repo via Dokploy)
+      - ./config:/etc/stalwart:rw
 
     environment:
       - TZ=Africa/Addis_Ababa
 
     restart: unless-stopped
 
-    # ✅ health check
+    # IMPORTANT: DO NOT use custom entrypoint or chown hacks
+    # Stalwart handles permissions internally when volume is clean
+
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8083/health"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 5
+      start_period: 40s
 
-    # ✅ basic security
     security_opt:
       - no-new-privileges:true
 
-    # ✅ limit resources (optional but good)
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 256M
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
 
 volumes:
-  stalwart_data: {}
+  stalwart_data:
