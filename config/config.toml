@@ -1,27 +1,44 @@
+[server]
+hostname = "mail.techvision.edu.et"
+
+
 [storage]
 data = "rocksdb"
+
 
 [store."rocksdb"]
 type = "rocksdb"
 path = "/opt/stalwart-mail/data"
 
-[server]
-hostname = "mail.techvision.edu.et"
+
 
 [listener."smtp"]
 bind = "[::]:25"
 
+
 [listener."submission"]
 bind = "[::]:587"
+
 
 [listener."smtps"]
 bind = "[::]:465"
 
+
 [listener."imap"]
 bind = "[::]:143"
 
+
 [listener."imaps"]
 bind = "[::]:993"
+
+
+[listener."pop3"]
+bind = "[::]:110"
+
+
+[listener."pop3s"]
+bind = "[::]:995"
+
 
 [listener."http"]
 bind = "[::]:8080"

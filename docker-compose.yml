@@ -1,4 +1,5 @@
 services:
+
   stalwart:
     build:
       context: .
@@ -9,33 +10,70 @@ services:
 
     restart: unless-stopped
 
+
     environment:
       TZ: Africa/Addis_Ababa
-      STALWART_RECOVERY_ADMIN: admin:admin
+
+      STALWART_RECOVERY_ADMIN: admin:ChangeMeStrongPassword123!
+
 
     volumes:
       - stalwart-data:/opt/stalwart-mail
 
+
     ports:
+
+      # SMTP
       - "25:25"
       - "465:465"
       - "587:587"
+
+
+      # IMAP
       - "143:143"
       - "993:993"
+
+
+      # POP3
       - "110:110"
       - "995:995"
+
+
+      # Manage sieve
       - "4190:4190"
 
+
+
     labels:
+
       - traefik.enable=true
 
+
+      # Web Admin
       - traefik.http.routers.stalwart.rule=Host(`mail.techvision.edu.et`)
+
       - traefik.http.routers.stalwart.entrypoints=websecure
+
       - traefik.http.routers.stalwart.tls=true
+
       - traefik.http.routers.stalwart.tls.certresolver=letsencrypt
+
 
       - traefik.http.services.stalwart.loadbalancer.server.port=8080
 
 
+
+    networks:
+      - dokploy-network
+
+
+
 volumes:
+
   stalwart-data:
+
+
+networks:
+
+  dokploy-network:
+    external: true
