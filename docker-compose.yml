@@ -15,7 +15,7 @@ services:
       - "8083:8080"
 
     volumes:
-      - stalwart_data:/opt/stalwart-mail/data
+      - stalwart_data:/opt/stalwart-mail
       - ./config:/etc/stalwart:rw
 
     environment:
