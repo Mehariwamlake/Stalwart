@@ -2,24 +2,32 @@
 hostname = "mail.techvision.edu.et"
 
 [storage]
-data = "/opt/stalwart-mail/data"
-
-[storage.blob]
-path = "/opt/stalwart-mail/data"
-
-[storage.fts]
-path = "/opt/stalwart-mail/data"
-
-[store]
 type = "rocksdb"
 path = "/opt/stalwart-mail/data"
 
-[jmap]
-directory = "internal"
+[http]
+bind = "[::]:8080"
 
-[auth]
-directory = "internal"
+[smtp]
+bind = "[::]:25"
 
-[log]
-level = "info"
-path = "/opt/stalwart-mail/logs"
+[submissions]
+bind = "[::]:587"
+
+[smtps]
+bind = "[::]:465"
+
+[imap]
+bind = "[::]:143"
+
+[imaps]
+bind = "[::]:993"
+
+[pop3]
+bind = "[::]:110"
+
+[pop3s]
+bind = "[::]:995"
+
+[managesieve]
+bind = "[::]:4190"

@@ -1,11 +1,33 @@
 [server]
 hostname = "mail.techvision.edu.et"
-bind = ["0.0.0.0:8080"]
 
 [storage]
-type = "filesystem"
-path = "/data"
+type = "rocksdb"
+path = "/opt/stalwart-mail/data"
 
-[authentication]
-admin = "admin@techvision.edu.et"
-password = "StrongPass123!"
+[http]
+bind = "[::]:8080"
+
+[smtp]
+bind = "[::]:25"
+
+[submissions]
+bind = "[::]:587"
+
+[smtps]
+bind = "[::]:465"
+
+[imap]
+bind = "[::]:143"
+
+[imaps]
+bind = "[::]:993"
+
+[pop3]
+bind = "[::]:110"
+
+[pop3s]
+bind = "[::]:995"
+
+[managesieve]
+bind = "[::]:4190"
