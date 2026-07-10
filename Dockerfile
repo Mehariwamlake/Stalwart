@@ -2,11 +2,10 @@ FROM stalwartlabs/stalwart:v0.16.10-alpine
 
 USER root
 
-RUN mkdir -p /etc/stalwart \
-    && mkdir -p /opt/stalwart-mail/data
+RUN mkdir -p /opt/stalwart-mail/etc
 
-COPY config/config.toml /etc/stalwart/config.toml
+COPY config/config.toml /opt/stalwart-mail/etc/config.toml
 
 ENTRYPOINT ["stalwart"]
 
-CMD ["--config", "/etc/stalwart/config.toml"]
+CMD ["--config", "/opt/stalwart-mail/etc/config.toml"]
