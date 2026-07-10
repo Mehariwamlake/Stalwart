@@ -7,7 +7,7 @@ services:
 
     hostname: mail.techvision.edu.et
 
-    restart: unless-stopped
+    restart: no
 
     environment:
       TZ: Africa/Addis_Ababa
