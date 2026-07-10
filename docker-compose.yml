@@ -1,32 +1,47 @@
+
 services:
   stalwart:
-    image: stalwartlabs/stalwart:latest-alpine
-    container_name: stalwart
+    image: stalwartlabs/stalwart:v0.16.10-alpine
+    container_name: stalwart-mail
     hostname: mail.techvision.edu.et
 
     restart: unless-stopped
 
-    ports:
-      - "25:25"
-      - "465:465"
-      - "587:587"
-      - "143:143"
-      - "993:993"
-      - "110:110"
-      - "995:995"
-      - "4190:4190"
-      - "8083:8080"
-
-    volumes:
-      - stalwart_data:/var/lib/stalwart
-      - ./data:/opt/stalwart-mail
-      - ./config:/etc/stalwart
-
     environment:
       TZ: Africa/Addis_Ababa
 
-      # Permanent recovery admin
-      STALWART_RECOVERY_ADMIN: admin:StrongPassword123!
+      # Permanent recovery administrator
+      STALWART_RECOVERY_ADMIN: admin:admin
+
+    ports:
+      # SMTP
+      - "25:25"
+      - "465:465"
+      - "587:587"
+
+      # IMAP
+      - "143:143"
+      - "993:993"
+
+      # POP3
+      - "110:110"
+      - "995:995"
+
+      # ManageSieve
+      - "4190:4190"
+
+      # Admin Web UI
+      - "8081:8080"
+
+    volumes:
+      # Mail storage
+      - ./data:/opt/stalwart-mail
+
+      # Configuration
+      - ./config:/etc/stalwart
+
+      # Logs
+      - ./logs:/var/log/stalwart
 
     ulimits:
       nofile:
@@ -34,9 +49,23 @@ services:
         hard: 65536
 
     healthcheck:
-      test: ["CMD", "sh", "-c", "nc -z localhost 25"]
+      test: ["CMD-SHELL", "nc -z localhost 25 || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 5
-volumes:
-  stalwart_data:
+      start_period: 60s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+    security_opt:
+      - no-new-privileges:true
+
+    stop_grace_period: 30s
+
+networks:
+  default:
+    name: stalwart-network

@@ -1,33 +1,92 @@
 [server]
 hostname = "mail.techvision.edu.et"
 
+########################################
+# Storage
+########################################
+
 [storage]
 type = "rocksdb"
 path = "/opt/stalwart-mail/data"
 
-[http]
+########################################
+# HTTP
+########################################
+
+[server.listener.http]
 bind = "[::]:8080"
+protocol = "http"
 
-[smtp]
+########################################
+# SMTP
+########################################
+
+[server.listener.smtp]
 bind = "[::]:25"
+protocol = "smtp"
 
-[submissions]
+########################################
+# Submission
+########################################
+
+[server.listener.submission]
 bind = "[::]:587"
+protocol = "smtp"
 
-[smtps]
+########################################
+# SMTPS
+########################################
+
+[server.listener.smtps]
 bind = "[::]:465"
+protocol = "smtp"
+tls.implicit = true
 
-[imap]
+########################################
+# IMAP
+########################################
+
+[server.listener.imap]
 bind = "[::]:143"
+protocol = "imap"
 
-[imaps]
+########################################
+# IMAPS
+########################################
+
+[server.listener.imaps]
 bind = "[::]:993"
+protocol = "imap"
+tls.implicit = true
 
-[pop3]
+########################################
+# POP3
+########################################
+
+[server.listener.pop3]
 bind = "[::]:110"
+protocol = "pop3"
 
-[pop3s]
+########################################
+# POP3S
+########################################
+
+[server.listener.pop3s]
 bind = "[::]:995"
+protocol = "pop3"
+tls.implicit = true
 
-[managesieve]
+########################################
+# ManageSieve
+########################################
+
+[server.listener.sieve]
 bind = "[::]:4190"
+protocol = "managesieve"
+
+########################################
+# Logging
+########################################
+
+[tracing]
+level = "info"
