@@ -1,5 +1,4 @@
 services:
-
   stalwart:
     build:
       context: .
@@ -12,7 +11,7 @@ services:
 
     environment:
       TZ: Africa/Addis_Ababa
-      STALWART_RECOVERY_ADMIN: admin:ChangeThisPassword123!
+      STALWART_RECOVERY_ADMIN: admin:admin
 
     volumes:
       - stalwart-data:/opt/stalwart-mail
