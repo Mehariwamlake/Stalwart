@@ -1,6 +1,8 @@
 services:
+
   stalwart:
-    image: stalwartlabs/stalwart:v0.16.10-alpine
+    build:
+      context: .
 
     container_name: stalwart
 
@@ -24,19 +26,6 @@ services:
       - "110:110"
       - "995:995"
       - "4190:4190"
-
-    command:
-      - sh
-      - -c
-      - |
-        mkdir -p /opt/stalwart-mail/etc
-
-        if [ ! -f /opt/stalwart-mail/etc/config.toml ]; then
-          cp /docker-config/config.toml /opt/stalwart-mail/etc/config.toml
-        fi
-
-        stalwart --config /opt/stalwart-mail/etc/config.toml
-
 
     labels:
       - traefik.enable=true
