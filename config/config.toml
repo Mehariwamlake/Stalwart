@@ -1,53 +1,27 @@
-[server]
-hostname = "mail.techvision.edu.et"
-
 [storage]
 data = "rocksdb"
-directory = "/opt/stalwart-mail"
 
 [store."rocksdb"]
 type = "rocksdb"
 path = "/opt/stalwart-mail/data"
 
-[certificate."default"]
-cert = "default"
-private-key = "default"
-
-[network]
-protocols = ["smtp", "imap", "pop3"]
+[server]
+hostname = "mail.techvision.edu.et"
 
 [listener."smtp"]
 bind = "[::]:25"
-protocol = "smtp"
 
 [listener."submission"]
 bind = "[::]:587"
-protocol = "smtp"
-tls = "required"
 
 [listener."smtps"]
 bind = "[::]:465"
-protocol = "smtp"
-tls = "implicit"
 
 [listener."imap"]
 bind = "[::]:143"
-protocol = "imap"
 
 [listener."imaps"]
 bind = "[::]:993"
-protocol = "imap"
-tls = "implicit"
-
-[listener."pop3"]
-bind = "[::]:110"
-protocol = "pop3"
-
-[listener."pop3s"]
-bind = "[::]:995"
-protocol = "pop3"
-tls = "implicit"
 
 [listener."http"]
 bind = "[::]:8080"
-protocol = "http"
