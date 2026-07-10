@@ -1,44 +1,8 @@
-[server]
-hostname = "mail.techvision.edu.et"
+[variables]
+main_domain = "${domain}"
 
-
-[storage]
-data = "rocksdb"
-
-
-[store."rocksdb"]
-type = "rocksdb"
-path = "/opt/stalwart-mail/data"
-
-
-
-[listener."smtp"]
-bind = "[::]:25"
-
-
-[listener."submission"]
-bind = "[::]:587"
-
-
-[listener."smtps"]
-bind = "[::]:465"
-
-
-[listener."imap"]
-bind = "[::]:143"
-
-
-[listener."imaps"]
-bind = "[::]:993"
-
-
-[listener."pop3"]
-bind = "[::]:110"
-
-
-[listener."pop3s"]
-bind = "[::]:995"
-
-
-[listener."http"]
-bind = "[::]:8080"
+[config]
+[[config.domains]]
+serviceName = "stalwart-mail"
+port = 8_080
+host = "${main_domain}"
