@@ -16,9 +16,6 @@ services:
 
       TZ: Africa/Addis_Ababa
 
-      STALWART_RECOVERY_ADMIN: admin:admin
-
-
     volumes:
 
       - stalwart-data:/opt/stalwart-mail
