@@ -1,0 +1,34 @@
+FROM stalwartlabs/stalwart:v0.16.10-alpine
+
+USER root
+
+RUN mkdir -p /etc/stalwart \
+    && mkdir -p /opt/stalwart-mail/data \
+    && apk add --no-cache bash file
+
+COPY config/config.toml /etc/stalwart/config.toml
+
+RUN echo "===== CONFIG FILE CHECK =====" \
+    && ls -lah /etc/stalwart \
+    && echo "===== FILE TYPE =====" \
+    && file /etc/stalwart/config.toml \
+    && echo "===== FIRST 30 LINES =====" \
+    && head -30 /etc/stalwart/config.toml
+
+
+ENTRYPOINT ["/bin/sh"]
+
+CMD ["-c", "\
+echo '===== STALWART DEBUG START ====='; \
+echo 'Version:'; \
+stalwart --version; \
+echo ''; \
+echo 'Config location:'; \
+ls -lah /etc/stalwart/config.toml; \
+echo ''; \
+echo 'Testing config:'; \
+stalwart --config /etc/stalwart/config.toml; \
+echo ''; \
+echo '===== PROCESS EXITED ====='; \
+sleep infinity \
+"]
