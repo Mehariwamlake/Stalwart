@@ -7,11 +7,6 @@ RUN mkdir -p /etc/stalwart \
 
 COPY config/config.toml /etc/stalwart/config.toml
 
-RUN echo "===== STALWART CONFIG =====" \
-    && ls -la /etc/stalwart \
-    && head -20 /etc/stalwart/config.toml
-
-
 ENTRYPOINT ["stalwart"]
 
 CMD ["--config", "/etc/stalwart/config.toml"]
