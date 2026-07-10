@@ -1,42 +1,33 @@
 services:
-  stalwart:
+  stalwart-mail:
     image: stalwartlabs/stalwart:latest-alpine
-    container_name: stalwart
-    hostname: mail.techvision.edu.et
+    container_name: stalwart-mail
 
-    restart: unless-stopped
+    hostname: ${MAIL_DOMAIN}
 
     ports:
       - "25:25"
-      - "465:465"
       - "587:587"
+      - "465:465"
       - "143:143"
       - "993:993"
-      - "110:110"
-      - "995:995"
       - "4190:4190"
       - "8083:8080"
 
     volumes:
-      - stalwart_data:/var/lib/stalwart
-      - ./data:/opt/stalwart-mail
-      - ./config:/etc/stalwart
+      - stalwart_data:/opt/stalwart-mail/data
+      - ./config:/etc/stalwart:rw
 
     environment:
-      TZ: Africa/Addis_Ababa
+      - TZ=${TZ}
+      - STALWART_RECOVERY_ADMIN=${STALWART_RECOVERY_ADMIN}
 
-      # Permanent recovery admin
-      STALWART_RECOVERY_ADMIN: admin:admin
+    restart: unless-stopped
 
     ulimits:
       nofile:
         soft: 65536
         hard: 65536
 
-    healthcheck:
-      test: ["CMD", "sh", "-c", "nc -z localhost 25"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
 volumes:
   stalwart_data:
