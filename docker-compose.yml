@@ -1,71 +1,53 @@
-
 services:
   stalwart:
     image: stalwartlabs/stalwart:v0.16.10-alpine
-    container_name: stalwart-mail
+
+    container_name: stalwart
+
     hostname: mail.techvision.edu.et
 
     restart: unless-stopped
 
     environment:
       TZ: Africa/Addis_Ababa
+      STALWART_RECOVERY_ADMIN: admin:ChangeThisPassword123!
 
-      # Permanent recovery administrator
-      STALWART_RECOVERY_ADMIN: admin:admin
+    volumes:
+      - stalwart-data:/opt/stalwart-mail
 
     ports:
-      # SMTP
       - "25:25"
       - "465:465"
       - "587:587"
-
-      # IMAP
       - "143:143"
       - "993:993"
-
-      # POP3
       - "110:110"
       - "995:995"
-
-      # ManageSieve
       - "4190:4190"
 
-      # Admin Web UI
-      - "8081:8080"
+    command:
+      - sh
+      - -c
+      - |
+        mkdir -p /opt/stalwart-mail/etc
 
-    volumes:
-      # Mail storage
-      - ./data:/opt/stalwart-mail
+        if [ ! -f /opt/stalwart-mail/etc/config.toml ]; then
+          cp /docker-config/config.toml /opt/stalwart-mail/etc/config.toml
+        fi
 
-      # Configuration
-      - ./config:/etc/stalwart
+        stalwart --config /opt/stalwart-mail/etc/config.toml
 
-      # Logs
-      - ./logs:/var/log/stalwart
 
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
+    labels:
+      - traefik.enable=true
 
-    healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 25 || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 60s
+      - traefik.http.routers.stalwart.rule=Host(`mail.techvision.edu.et`)
+      - traefik.http.routers.stalwart.entrypoints=websecure
+      - traefik.http.routers.stalwart.tls=true
+      - traefik.http.routers.stalwart.tls.certresolver=letsencrypt
 
-    logging:
-      driver: json-file
-      options:
-        max-size: "50m"
-        max-file: "5"
+      - traefik.http.services.stalwart.loadbalancer.server.port=8080
 
-    security_opt:
-      - no-new-privileges:true
 
-    stop_grace_period: 30s
-
-networks:
-  default:
-    name: stalwart-network
+volumes:
+  stalwart-data:
