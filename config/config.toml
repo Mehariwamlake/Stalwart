@@ -1,92 +1,53 @@
 [server]
 hostname = "mail.techvision.edu.et"
 
-########################################
-# Storage
-########################################
-
 [storage]
+data = "rocksdb"
+directory = "/opt/stalwart-mail"
+
+[store."rocksdb"]
 type = "rocksdb"
 path = "/opt/stalwart-mail/data"
 
-########################################
-# HTTP
-########################################
+[certificate."default"]
+cert = "default"
+private-key = "default"
 
-[server.listener.http]
-bind = "[::]:8080"
-protocol = "http"
+[network]
+protocols = ["smtp", "imap", "pop3"]
 
-########################################
-# SMTP
-########################################
-
-[server.listener.smtp]
+[listener."smtp"]
 bind = "[::]:25"
 protocol = "smtp"
 
-########################################
-# Submission
-########################################
-
-[server.listener.submission]
+[listener."submission"]
 bind = "[::]:587"
 protocol = "smtp"
+tls = "required"
 
-########################################
-# SMTPS
-########################################
-
-[server.listener.smtps]
+[listener."smtps"]
 bind = "[::]:465"
 protocol = "smtp"
-tls.implicit = true
+tls = "implicit"
 
-########################################
-# IMAP
-########################################
-
-[server.listener.imap]
+[listener."imap"]
 bind = "[::]:143"
 protocol = "imap"
 
-########################################
-# IMAPS
-########################################
-
-[server.listener.imaps]
+[listener."imaps"]
 bind = "[::]:993"
 protocol = "imap"
-tls.implicit = true
+tls = "implicit"
 
-########################################
-# POP3
-########################################
-
-[server.listener.pop3]
+[listener."pop3"]
 bind = "[::]:110"
 protocol = "pop3"
 
-########################################
-# POP3S
-########################################
-
-[server.listener.pop3s]
+[listener."pop3s"]
 bind = "[::]:995"
 protocol = "pop3"
-tls.implicit = true
+tls = "implicit"
 
-########################################
-# ManageSieve
-########################################
-
-[server.listener.sieve]
-bind = "[::]:4190"
-protocol = "managesieve"
-
-########################################
-# Logging
-########################################
-
-[tracing]
-level = "info"
+[listener."http"]
+bind = "[::]:8080"
+protocol = "http"
