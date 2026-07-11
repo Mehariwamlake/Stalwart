@@ -2,7 +2,6 @@ services:
   stalwart-mail:
     image: stalwartlabs/stalwart:v0.15.4 
     container_name: stalwart_mail.techvision.edu.et
-    network_mode: host
     ports:
       - "25:25"
       - "587:587"
