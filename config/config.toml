@@ -1,13 +1,12 @@
 account.purge.frequency = "0 0 * * *"
 acme.mail-techvision-edu-et.cache = "%{BASE_PATH}%/etc/acme"
 acme.mail-techvision-edu-et.challenge = "tls-alpn-01"
-acme.mail-techvision-edu-et.contact = ["postmaster@techvision.edu.et"]
+acme.mail-techvision-edu-et.contact = ["postmaster@mail.techvision.edu.et"]
 acme.mail-techvision-edu-et.default = true
 acme.mail-techvision-edu-et.directory = "https://acme-v02.api.letsencrypt.org/directory"
 acme.mail-techvision-edu-et.domains = ["mail.techvision.edu.et"]
-acme.mail-techvision-edu-et.eab.hmac-key = "admin"
 acme.mail-techvision-edu-et.renew-before = "30d"
-authentication.fallback-admin.secret = "$2b$12$v.GawIRDi5/n6F6SWeMm8utk0pYaCLHbDonr9fHc4XSyGGn3U7dXm"
+authentication.fallback-admin.secret = "$2b$12$KFHcanPBq0YQhpfoS9Kihui247H3DyU3xPM2SRi/RNKxCzhjimvtq"
 authentication.fallback-admin.user = "frappe"
 changes.max-history = 10000
 cluster.node-id = 1
