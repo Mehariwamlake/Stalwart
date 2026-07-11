@@ -1,6 +1,8 @@
 services:
   stalwart-mail:
-    image: stalwartlabs/stalwart:latest-alpine # for production choose specific version from https://hub.docker.com/r/stalwartlabs/stalwart/tags
+    image: stalwartlabs/stalwart:v0.15.4 
+    container_name: stalwart_mail.techvision.edu.et
+    network_mode: host
     ports:
       - "25:25"
       - "587:587"
@@ -21,3 +23,4 @@ services:
 
 volumes:
   stalwart_data:
+
