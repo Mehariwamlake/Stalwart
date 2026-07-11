@@ -13,7 +13,7 @@ services:
       - "995:995"    # POP3S
     volumes:
       - stalwart_data:/opt/stalwart-mail
-      - ./config:/opt/stalwart-mail/etc/stalwart:rw
+      - ./config:/opt/stalwart-mail/etc:rw
     environment:
       - TZ=${TZ}
       - STALWART_RECOVERY_ADMIN=${STALWART_RECOVERY_ADMIN}
