@@ -1,10 +1,6 @@
 services:
   stalwart-mail:
-    image: stalwartlabs/stalwart:latest-alpine
-    container_name: stalwart-mail
-
-    hostname: ${MAIL_DOMAIN}
-
+    image: stalwartlabs/stalwart:latest-alpine # for production choose specific version from https://hub.docker.com/r/stalwartlabs/stalwart/tags
     ports:
       - "25:25"
       - "587:587"
@@ -13,21 +9,15 @@ services:
       - "993:993"
       - "4190:4190"
       - "8083:8080"
-
+      - "110:110"    # POP3
+      - "995:995"    # POP3S
     volumes:
       - stalwart_data:/opt/stalwart-mail
       - ./config:/etc/stalwart:rw
-
     environment:
       - TZ=${TZ}
       - STALWART_RECOVERY_ADMIN=${STALWART_RECOVERY_ADMIN}
-
     restart: unless-stopped
-
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
 
 volumes:
   stalwart_data:
