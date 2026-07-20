@@ -16,7 +16,8 @@ services:
       - stalwart_data:/opt/stalwart-mail
       - ./config:/opt/stalwart-mail/etc:rw
     environment:
-      - TZ=${TZ}}
+      - TZ=${TZ}
+      - STALWART_RECOVERY_ADMIN=${STALWART_RECOVERY_ADMIN}
     restart: unless-stopped
 
 volumes:
