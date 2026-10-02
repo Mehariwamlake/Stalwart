@@ -1,6 +1,6 @@
 services:
   stalwart:
-    image: stalwartlabs/stalwart:v0.16.20
+    image: stalwartlabs/stalwart:v0.16.6
     container_name: stalwart_mail.techvision.edu.et
     ports:
       - "25:25"
